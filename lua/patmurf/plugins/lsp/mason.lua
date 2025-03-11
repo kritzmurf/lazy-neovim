@@ -36,7 +36,7 @@ return {
         "sqlls",
         "taplo",
         "gitlab_ci_ls",
-        "tsserver",
+        "ts_ls",
         "html",
         "cssls",
         "tailwindcss",
