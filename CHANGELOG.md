@@ -1,5 +1,9 @@
 ## [UNRELEASED]
 ### Updated
+### Added
+
+## [1.1.0]
+### Updated
 -   Removed LSP references to 'tssserver' (deprecated). Replaced with 'ts_ls'
 -   Updated numerous LSP versions
 ### Added
