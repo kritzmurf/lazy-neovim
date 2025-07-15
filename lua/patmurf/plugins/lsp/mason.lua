@@ -46,6 +46,7 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
+        "lemminx",
       },
     })
   end,
