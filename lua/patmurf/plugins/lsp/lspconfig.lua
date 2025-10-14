@@ -9,7 +9,6 @@ return {
     "williamboman/mason-lspconfig.nvim",
   },
   config = function()
-    local lspconfig = require("lspconfig")
     local mason_lspconfig = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local keymap = vim.keymap
@@ -53,10 +52,16 @@ return {
 
     -- 🔹 Diagnostic signs
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
+    vim.diagnostic.config({
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = signs.Error,
+          [vim.diagnostic.severity.WARN] = signs.Warn,
+          [vim.diagnostic.severity.HINT] = signs.Hint,
+          [vim.diagnostic.severity.INFO] = signs.Info,
+        }
+      }
+    })
 
     -- 🔹 Mason installed servers → we must still setup each one
     local servers = {
@@ -133,7 +138,12 @@ return {
       end
 
       -- setup the server
-      lspconfig[server_name].setup(opts)
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = server_name, -- Simplified heuristic
+        callback = function()
+          vim.lsp.start(vim.lsp.config[server_name])
+        end,
+      })
     end
   end,
 }
