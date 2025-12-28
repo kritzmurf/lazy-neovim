@@ -38,4 +38,3 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 -- terminal management
 keymap.set("n", "<leader>tt", "<cmd>split term://zsh<CR>", { desc = "Open a zsh terminal horizontally" }) -- open zsh terminal
 keymap.set("t", "<leader>ui","<cmd>term ++close<CR>", { desc = "Close the terminal session" }) --close the terminal session
-
