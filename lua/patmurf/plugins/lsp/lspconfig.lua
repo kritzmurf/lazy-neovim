@@ -9,6 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
   },
   config = function()
+    local lspconfig = require("lspconfig")
     local mason_lspconfig = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
     local keymap = vim.keymap
@@ -64,31 +65,8 @@ return {
     })
 
     -- 🔹 Mason installed servers → we must still setup each one
-    local servers = {
-      "bashls",
-      "clangd",
-      "csharp_ls",
-      "cmake",
-      "dockerls",
-      "jsonls",
-      "markdown_oxide",
-      "matlab_ls",
-      "rust_analyzer",
-      "sqlls",
-      "taplo",
-      "gitlab_ci_ls",
-      "ts_ls",
-      "html",
-      "cssls",
-      "tailwindcss",
-      "svelte",
-      "graphql",
-      "emmet_ls",
-      "prismals",
-      "lua_ls",
-      "pyright",
-      "ltex",
-    }
+    local servers = mason_lspconfig.get_installed_servers()
+    assert(type(servers) == "table", "mason-lspconfig returned no servers")
 
     -- 🔹 Explicit setup (no setup_handlers)
     for _, server_name in ipairs(servers) do
@@ -138,12 +116,8 @@ return {
       end
 
       -- setup the server
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = server_name, -- Simplified heuristic
-        callback = function()
-          vim.lsp.start(vim.lsp.config[server_name])
-        end,
-      })
+      vim.lsp.config(server_name, opts)
+      vim.lsp.enable(server_name)
     end
   end,
 }
